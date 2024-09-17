@@ -25,6 +25,7 @@ builder.Services.AddEntityFrameworkSqlServer()
 
 // Injetar o repositório no contêiner de serviços
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<ITarefaRepository, TarefaRepository>();
 
 var app = builder.Build();
 

@@ -1,5 +1,6 @@
 using ApiCRUD.Data;
 using ApiCRUD.Models;
+using ApiCRUD.Models.Usuario;
 using ApiCRUD.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +16,20 @@ public class UsuarioRepository : IUsuarioRepository
         _dbContext = apiCruddbContext;
     }
     
+
+    public async Task<UsuarioResponseDTO> Adicionar(UsuarioRequestDTO request)
+    {
+        
+        UsuarioModel usuario = new UsuarioModel(request);
+
+        await _dbContext.Usuarios.AddAsync(usuario);
+
+        await _dbContext.SaveChangesAsync();
+
+        return new UsuarioResponseDTO(usuario);
+
+    }
+
     public async Task<List<UsuarioModel>> BuscarTodosUsuarios()
     {
         return await _dbContext.Usuarios.ToListAsync();
@@ -34,11 +49,19 @@ public class UsuarioRepository : IUsuarioRepository
         }
     }
 
-
-    public async Task<UsuarioModel> Adicionar(UsuarioModel usuario)
+    public async Task<UsuarioModel> BuscarTarefasPorUsuarioId(int id)
     {
-        await _dbContext.Usuarios.AddAsync(usuario);
-        await _dbContext.SaveChangesAsync();
+        // Buscar o usuário por Id de forma assíncrona
+        var usuario = await _dbContext.Usuarios
+                                    .Include(x => x.Tarefas) // Incluir a coleção de Tarefas
+                                    .FirstOrDefaultAsync(x => x.Id == id);
+
+        if (usuario == null)
+        {
+            throw new Exception("Usuário não encontrado");
+        }
+
+        // Retornar a coleção de tarefas do usuário encontrado
         return usuario;
     }
 

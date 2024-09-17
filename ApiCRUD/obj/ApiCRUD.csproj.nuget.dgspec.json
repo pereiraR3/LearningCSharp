@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/phost/TestCSharp/ApiCRUD/ApiCRUD.csproj": {}
+    "/home/phost/Documents/projectGithub/LearningCSharp/ApiCRUD/ApiCRUD.csproj": {}
   },
   "projects": {
-    "/home/phost/TestCSharp/ApiCRUD/ApiCRUD.csproj": {
+    "/home/phost/Documents/projectGithub/LearningCSharp/ApiCRUD/ApiCRUD.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/phost/TestCSharp/ApiCRUD/ApiCRUD.csproj",
+        "projectUniqueName": "/home/phost/Documents/projectGithub/LearningCSharp/ApiCRUD/ApiCRUD.csproj",
         "projectName": "ApiCRUD",
-        "projectPath": "/home/phost/TestCSharp/ApiCRUD/ApiCRUD.csproj",
+        "projectPath": "/home/phost/Documents/projectGithub/LearningCSharp/ApiCRUD/ApiCRUD.csproj",
         "packagesPath": "/home/phost/.nuget/packages/",
-        "outputPath": "/home/phost/TestCSharp/ApiCRUD/obj/",
+        "outputPath": "/home/phost/Documents/projectGithub/LearningCSharp/ApiCRUD/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/phost/.nuget/NuGet/NuGet.Config"
@@ -38,6 +38,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[12.0.1, )"
+            },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[8.0.8, )"
