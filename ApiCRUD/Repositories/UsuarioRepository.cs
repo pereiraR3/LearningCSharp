@@ -2,6 +2,7 @@ using ApiCRUD.Data;
 using ApiCRUD.Models;
 using ApiCRUD.Models.Usuario;
 using ApiCRUD.Repositories.Interfaces;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
 namespace ApiCRUD.Repositories;
@@ -11,9 +12,12 @@ public class UsuarioRepository : IUsuarioRepository
     
     private readonly ApiCRUDDBContext _dbContext;
 
-    public UsuarioRepository(ApiCRUDDBContext apiCruddbContext)
+    private readonly IMapper _mapper;
+
+    public UsuarioRepository(ApiCRUDDBContext apiCruddbContext, IMapper mapper)
     {
         _dbContext = apiCruddbContext;
+        _mapper = mapper;
     }
     
 
@@ -26,7 +30,7 @@ public class UsuarioRepository : IUsuarioRepository
 
         await _dbContext.SaveChangesAsync();
 
-        return new UsuarioResponseDTO(usuario);
+        return _mapper.Map<UsuarioResponseDTO>(usuario);
 
     }
 

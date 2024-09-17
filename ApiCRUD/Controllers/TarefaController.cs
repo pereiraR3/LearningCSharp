@@ -1,4 +1,5 @@
 using ApiCRUD.Models;
+using ApiCRUD.Models.Tarefa;
 using ApiCRUD.Repositories.Interfaces;
 
 using Microsoft.AspNetCore.Mvc;
@@ -23,9 +24,9 @@ namespace ApiCRUD
         */
   
         [HttpPost]
-        public async Task<ActionResult<TarefaModel>> CriaTarefa(TarefaModel tarefa)
+        public async Task<ActionResult<TarefaResponseDTO>> CriaTarefa(TarefaRequestDTO request)
         {
-            TarefaModel result = await _tarefaRepository.Adicionar(tarefa);
+            TarefaResponseDTO result = await _tarefaRepository.Adicionar(request);
 
             return Ok(result);
         }
@@ -35,11 +36,11 @@ namespace ApiCRUD
         */
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<TarefaModel>> BuscaPorId(int id)
+        public async Task<ActionResult<TarefaResponseDTO>> BuscaPorId(int id)
         {
             try{
 
-                TarefaModel result = await _tarefaRepository.BuscarPorId(id);
+                TarefaResponseDTO result = await _tarefaRepository.BuscarPorId(id);
 
                 return Ok(result);
                 
@@ -53,9 +54,9 @@ namespace ApiCRUD
         */
 
         [HttpGet]
-        public async Task<ActionResult<List<TarefaModel>>> BuscarTodasTarefas()
+        public async Task<ActionResult<List<TarefaResponseDTO>>> BuscarTodasTarefas()
         {
-            List<TarefaModel> resultado = await _tarefaRepository.BuscarTodasTarefas();
+            List<TarefaResponseDTO> resultado = await _tarefaRepository.BuscarTodasTarefas();
             return Ok(resultado);
         }
 

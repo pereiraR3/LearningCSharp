@@ -1,7 +1,9 @@
 using ApiCRUD.Data;
 using ApiCRUD.Models;
+using ApiCRUD.Models.Tarefa;
 using ApiCRUD.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 
 namespace ApiCRUD.Repositories;
 
@@ -9,33 +11,53 @@ public class TarefaRepository : ITarefaRepository
 {
     
     private readonly ApiCRUDDBContext _dbContext;
+    private readonly IUsuarioRepository _usuarioRepository;
+    private readonly IMapper _mapper;
 
-    public TarefaRepository(ApiCRUDDBContext apiCruddbContext)
+
+    public TarefaRepository(ApiCRUDDBContext apiCruddbContext, IUsuarioRepository usuarioRepository, IMapper mapper)
     {
         _dbContext = apiCruddbContext;
+        _usuarioRepository = usuarioRepository;
+        _mapper = mapper;
     }
     
-    public async Task<TarefaModel> Adicionar(TarefaModel tarefa)
+    public async Task<TarefaResponseDTO> Adicionar(TarefaRequestDTO request)
     {
+
+        UsuarioModel usuario = await _usuarioRepository.BuscarPorId(request.UsuarioId);
+
+        if (usuario == null)
+        {
+            throw new Exception($"Usuário para o ID: {request.UsuarioId} não foi encontrado");
+        }
+
+        TarefaModel tarefa = new TarefaModel(request, usuario);
+
         await _dbContext.Tarefas.AddAsync(tarefa);
+
         await _dbContext.SaveChangesAsync();
-        return tarefa;
+
+        return _mapper.Map<TarefaResponseDTO>(tarefa);
+
     }
 
-    public async Task<List<TarefaModel>> BuscarTodasTarefas()
+    public async Task<List<TarefaResponseDTO>> BuscarTodasTarefas()
     {
-        return await _dbContext.Tarefas
-        .ToListAsync();
+        var tarefas =  await _dbContext.Tarefas.ToListAsync();
+
+        return _mapper.Map<List<TarefaResponseDTO>>(tarefas);
     }
 
-    public async Task<TarefaModel> BuscarPorId(int id)
+    public async Task<TarefaResponseDTO> BuscarPorId(int id)
     {
         try
         {
-            // Tenta encontrar o usuário com o ID fornecido
-            return await _dbContext.Tarefas
+            var tarefa = await _dbContext.Tarefas
             .Include(x => x.Usuario)
             .FirstOrDefaultAsync(x => x.Id == id);
+
+            return _mapper.Map<TarefaResponseDTO>(tarefa);
         }
         catch (Exception ex)
         {
@@ -47,7 +69,7 @@ public class TarefaRepository : ITarefaRepository
     public async Task<TarefaModel> Atualizar(TarefaModel tarefa, int id)
     {
 
-        TarefaModel tarefaModel = await BuscarPorId(id);
+        TarefaModel tarefaModel = _mapper.Map<TarefaModel>(await BuscarPorId(id));
 
         if (tarefaModel == null)
         {
@@ -66,7 +88,7 @@ public class TarefaRepository : ITarefaRepository
 
     public async Task<bool> Apagar(int id)
     {
-        TarefaModel tarefaModel = await BuscarPorId(id);
+        TarefaModel tarefaModel = _mapper.Map<TarefaModel>(await BuscarPorId(id));
 
         if (tarefaModel == null)
         {

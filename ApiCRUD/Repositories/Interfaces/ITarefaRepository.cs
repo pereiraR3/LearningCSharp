@@ -1,15 +1,16 @@
 using ApiCRUD.Models;
+using ApiCRUD.Models.Tarefa;
 
 namespace ApiCRUD.Repositories.Interfaces;
 
 public interface ITarefaRepository
 {
 
-    Task<List<TarefaModel>> BuscarTodasTarefas();
+    Task<List<TarefaResponseDTO>> BuscarTodasTarefas();
     
-    Task<TarefaModel> BuscarPorId(int id);
+    Task<TarefaResponseDTO> BuscarPorId(int id);
     
-    Task<TarefaModel> Adicionar(TarefaModel tarefa);
+    Task<TarefaResponseDTO> Adicionar(TarefaRequestDTO request);
     
     Task<TarefaModel> Atualizar(TarefaModel tarefa, int id);
     

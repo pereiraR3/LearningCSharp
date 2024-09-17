@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using ApiCRUD.Models.Tarefa;
 using ApiCRUD.Models.Usuario;
 
@@ -8,6 +9,8 @@ public class UsuarioModel
     public int Id { get; set; }
     public string? Nome { get; set; }
     public string? Email { get; set; }
+
+    [JsonIgnore]
     public List<TarefaModel> Tarefas { get; set; }
 
     public UsuarioModel(){}

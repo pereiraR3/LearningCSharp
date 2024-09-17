@@ -10,8 +10,7 @@ public class AutoMapperProfile : Profile
         CreateMap<TarefaModel, TarefaResponseDTO>();
             
         CreateMap<UsuarioModel, UsuarioResponseDTO>();
-                
-
+            
     }
 }
 

@@ -27,6 +27,8 @@ builder.Services.AddEntityFrameworkSqlServer()
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<ITarefaRepository, TarefaRepository>();
 
+builder.Services.AddAutoMapper(typeof(Program)); // Adiciona o AutoMapper
+
 var app = builder.Build();
 
 // Configurar o pipeline de requisições HTTP
